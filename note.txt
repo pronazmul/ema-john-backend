@@ -1,0 +1,43 @@
+Commands: 
+        npm init
+        npm install express mongodb body-parser cors dotenv
+        npm install nodemon --save-dotenv
+
+Initialize NOde | Mongo | BOdy-Parser | CORS: 
+
+        const express = require('express')
+        const app = express()
+        const port = 5000
+        const bodyParser = require('body-parser')
+        const cors = require('cors')
+        const MongoClient = require('mongodb').MongoClient
+        app.use(bodyParser.json())
+        app.use(cors())
+
+        require('dotenv').config()
+        const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mx72a.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+        client.connect(err => {
+        const collection = client.db(process.env.DB_NAME).collection(process.env.COLLECTION);
+
+        })
+
+        app.get('/',(req,res)=>res.send("Welcome Software developer"))
+        app.listen(port)
+
+@ Sent Post Request From Forntend: 
+
+    const handleAddProduct = ()=>{
+        fetch('http://localhost:5000/addProduct',{
+            method:"POST",
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(fakeData[0])
+        })
+    }
+
+@ Collect Request data & Transfer To DB: 
+
+  app.post('/addProduct',(req,res)=>{
+    collection.insertOne(req.body)
+    .then(result=>console.log(result))
+  })
