@@ -27,6 +27,12 @@ client.connect(err => {
         })
     })
 
+    // Load Single Data 
+    app.get('/product/:key',(req,res)=>{
+        collection.find({key:req.params.key})
+        .toArray((err, documents)=>res.send(documents))
+    })
+
 
 
 
